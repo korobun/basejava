@@ -5,13 +5,14 @@ public class ArrayStorage {
     Resume[] storage = new Resume[10000];
 
     void clear() {
-        for (int i = 0; i < size(); i++) {
+        int storageSize = size();
+        for (int i = 0; i < storageSize; i++) {
             storage[i] = null;
         }
     }
 
     void save(Resume r) {
-        if (size() < 1000) {
+        if (size() < storage.length) {
             storage[size()] = r;
         }
     }
@@ -27,15 +28,17 @@ public class ArrayStorage {
 
     void delete(String uuid) {
         int index = 0;
-        for (int i = 0; i < size(); i++) {
+        int storageSize = size();
+
+        for (int i = 0; i < storageSize; i++) {
             if (storage[i].toString() == uuid) {
                 storage[i] = null;
                 index = i;
             }
         }
 
-        if (index < size() - 1) {
-            for (int i = index + 1; i < size(); i++) {
+        if (index < storageSize - 1) {
+            for (int i = index + 1; i < storageSize; i++) {
                 storage[i - 1] = storage[i];
             }
         }
@@ -45,10 +48,9 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        Resume[] allValidResumes = new Resume[size()];
-        for (int i = 0; i < allValidResumes.length; i++) {
-            allValidResumes[i] = storage[i];
-        }
+        int storageSize = size();
+        Resume[] allValidResumes = new Resume[storageSize];
+        System.arraycopy (storage, 0, allValidResumes, 0, storageSize);
         return allValidResumes;
     }
 
