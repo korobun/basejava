@@ -35,15 +35,15 @@ public class ArrayStorage {
             if (storage[i].toString() == uuid) {
                 storage[i] = null;
                 index = i;
-            }
-        }
 
-        if (index < storageSize - 1) {
-            for (int i = index + 1; i < storageSize; i++) {
-                storage[i - 1] = storage[i];
+                if (index < storageSize - 1) {
+                    for (int j = index + 1; j < storageSize; j++) {
+                        storage[j - 1] = storage[j];
+                    }
+                }
+                storageSize--;
             }
         }
-        storageSize--;
     }
 
     /**
