@@ -1,3 +1,5 @@
+package com.lexkor.webapp;
+
 import com.lexkor.webapp.model.Resume;
 import com.lexkor.webapp.storage.ArrayStorage;
 

@@ -25,6 +25,8 @@ public class ArrayStorage {
         if (r != null && size < storage.length) {
             storage[size] = r;
             size++;
+        } else {
+            System.out.println("ERROR: storage overflow or invalid resume");
         }
     }
 
