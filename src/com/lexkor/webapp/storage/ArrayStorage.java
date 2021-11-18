@@ -17,13 +17,13 @@ public class ArrayStorage {
     }
 
     public void save(Resume r) {
-        if (r.equals(null)) {
+        if (r == null) {
             System.out.println("ERROR: resume does not exist");
             return;
         }
 
         if (findIndex(r.toString()) >= 0) {
-            System.out.printf("ERROR: resume %s present in storage%n", r.toString());
+            System.out.printf("ERROR: resume %s present in storage%n", r);
             return;
         }
 
@@ -57,14 +57,14 @@ public class ArrayStorage {
     }
 
     public void update(Resume resume) {
-        if (resume.equals(null)) {
+        if (resume == null) {
             System.out.println("ERROR: resume does not exist");
             return;
         }
 
         int index = findIndex(resume.toString());
         if (index < 0) {
-            System.out.printf("ERROR: resume %s not present in storage%n", resume.toString());
+            System.out.printf("ERROR: resume %s not present in storage%n", resume);
             return;
         }
 
