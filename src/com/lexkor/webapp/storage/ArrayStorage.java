@@ -2,23 +2,14 @@ package com.lexkor.webapp.storage;
 
 import com.lexkor.webapp.model.Resume;
 
-import java.util.Arrays;
-
 /**
  * Array based storage for Resumes
  */
 public class ArrayStorage extends AbstractArrayStorage {
 
+    @Override
     public void save(Resume r) {
-        if (r == null) {
-            System.out.println("ERROR: resume does not exist");
-            return;
-        }
-
-        if (findIndex(r.toString()) >= 0) {
-            System.out.printf("ERROR: resume %s present in storage%n", r);
-            return;
-        }
+        super.save(r);
 
         if (size < STORAGE_LIMIT) {
             storage[size] = r;
@@ -26,6 +17,15 @@ public class ArrayStorage extends AbstractArrayStorage {
         } else {
             System.out.println("ERROR: storage overflow");
         }
+    }
+
+    @Override
+    public void delete(String uuid) {
+        super.delete(uuid);
+
+        storage[findIndex(uuid)] = storage[size - 1];
+        storage[size - 1] = null;
+        size--;
     }
 
     /**

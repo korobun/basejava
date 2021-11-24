@@ -1,7 +1,8 @@
 package com.lexkor.webapp;
 
 import com.lexkor.webapp.model.Resume;
-import com.lexkor.webapp.storage.ArrayStorage;
+import com.lexkor.webapp.storage.SortedArrayStorage;
+import com.lexkor.webapp.storage.Storage;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,7 +14,7 @@ import java.io.InputStreamReader;
  * (just run, no need to understand)
  */
 public class MainArray {
-    private final static ArrayStorage ARRAY_STORAGE = new ArrayStorage();
+    private final static Storage ARRAY_STORAGE = new SortedArrayStorage();
 
     public static void main(String[] args) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));

@@ -15,6 +15,18 @@ abstract public class AbstractArrayStorage implements Storage {
         size = 0;
     }
 
+    public void save(Resume r) {
+        if (r == null) {
+            System.out.println("ERROR: resume does not exist");
+            return;
+        }
+
+        if (findIndex(r.toString()) >= 0) {
+            System.out.printf("ERROR: resume %s present in storage%n", r);
+            return;
+        }
+    }
+
     public Resume get(String uuid) {
         int index = findIndex(uuid);
         if (index < 0) {
@@ -25,15 +37,10 @@ abstract public class AbstractArrayStorage implements Storage {
     }
 
     public void delete(String uuid) {
-        int index = findIndex(uuid);
-        if (index < 0) {
+        if (findIndex(uuid) < 0) {
             System.out.printf("ERROR: resume %s not present in storage%n", uuid);
             return;
         }
-
-        storage[index] = storage[size - 1];
-        storage[size - 1] = null;
-        size--;
     }
 
     public void update(Resume resume) {
