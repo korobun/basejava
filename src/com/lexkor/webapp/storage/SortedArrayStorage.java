@@ -7,9 +7,7 @@ import java.util.Arrays;
 public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
-    public void save(Resume r) {
-        super.save(r);
-
+    protected void saveResume(Resume r) {
         int insertKey = -findIndex(r.toString()) - 1;
         System.arraycopy(storage, insertKey, storage, insertKey + 1, size - insertKey);
         storage[insertKey] = r;
@@ -17,9 +15,7 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    public void delete(String uuid) {
-        super.delete(uuid);
-
+    protected void deleteResume(String uuid) {
         int index = findIndex(uuid);
         System.arraycopy(storage, index + 1, storage, index, size - index);
         size--;

@@ -10,12 +10,12 @@ abstract public class AbstractArrayStorage implements Storage {
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
 
-    public void clear() {
+    final public void clear() {
         Arrays.fill(storage, 0, size, null);
         size = 0;
     }
 
-    public void save(Resume r) {
+    final public void save(Resume r) {
         if (r == null) {
             System.out.println("ERROR: resume does not exist");
             return;
@@ -25,9 +25,12 @@ abstract public class AbstractArrayStorage implements Storage {
             System.out.printf("ERROR: resume %s present in storage%n", r);
             return;
         }
+
+        saveResume(r);
     }
 
-    public Resume get(String uuid) {
+
+    final public Resume get(String uuid) {
         int index = findIndex(uuid);
         if (index < 0) {
             System.out.printf("ERROR: resume %s not present in storage%n", uuid);
@@ -36,14 +39,16 @@ abstract public class AbstractArrayStorage implements Storage {
         return storage[index];
     }
 
-    public void delete(String uuid) {
+    final public void delete(String uuid) {
         if (findIndex(uuid) < 0) {
             System.out.printf("ERROR: resume %s not present in storage%n", uuid);
             return;
         }
+
+        deleteResume(uuid);
     }
 
-    public void update(Resume resume) {
+    final public void update(Resume resume) {
         if (resume == null) {
             System.out.println("ERROR: resume does not exist");
             return;
@@ -58,13 +63,17 @@ abstract public class AbstractArrayStorage implements Storage {
         storage[index] = resume;
     }
 
-    public Resume[] getAll() {
+    final public Resume[] getAll() {
         return Arrays.copyOfRange(storage, 0, size);
     }
 
-    public int size() {
+    final public int size() {
         return size;
     }
+
+    protected abstract void saveResume(Resume r);
+
+    protected abstract void deleteResume(String uuid);
 
     protected abstract int findIndex(String uuid);
 }

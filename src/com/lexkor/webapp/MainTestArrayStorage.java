@@ -1,6 +1,7 @@
 package com.lexkor.webapp;
 
 import com.lexkor.webapp.model.Resume;
+import com.lexkor.webapp.storage.ArrayStorage;
 import com.lexkor.webapp.storage.SortedArrayStorage;
 import com.lexkor.webapp.storage.Storage;
 
