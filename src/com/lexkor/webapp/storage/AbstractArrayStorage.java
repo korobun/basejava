@@ -29,7 +29,6 @@ abstract public class AbstractArrayStorage implements Storage {
         saveResume(r);
     }
 
-
     final public Resume get(String uuid) {
         int index = findIndex(uuid);
         if (index < 0) {

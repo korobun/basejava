@@ -7,7 +7,6 @@ import com.lexkor.webapp.model.Resume;
  */
 public class ArrayStorage extends AbstractArrayStorage {
 
-    @Override
     protected void saveResume(Resume r) {
         if (size < STORAGE_LIMIT) {
             storage[size] = r;
@@ -17,7 +16,6 @@ public class ArrayStorage extends AbstractArrayStorage {
         }
     }
 
-    @Override
     protected void deleteResume(String uuid) {
         storage[findIndex(uuid)] = storage[size - 1];
         storage[size - 1] = null;
