@@ -4,18 +4,18 @@ import com.lexkor.webapp.model.Resume;
 
 import java.util.Arrays;
 
-abstract public class AbstractArrayStorage implements Storage {
+public abstract class AbstractArrayStorage implements Storage {
     protected static final int STORAGE_LIMIT = 10_000;
 
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
 
-    final public void clear() {
+    public final void clear() {
         Arrays.fill(storage, 0, size, null);
         size = 0;
     }
 
-    final public void save(Resume r) {
+    public final void save(Resume r) {
         if (r == null) {
             System.out.println("ERROR: resume does not exist");
             return;
@@ -26,10 +26,16 @@ abstract public class AbstractArrayStorage implements Storage {
             return;
         }
 
+        if (size == STORAGE_LIMIT) {
+            System.out.println("ERROR: storage overflow");
+            return;
+        }
+
         saveResume(r);
+        size++;
     }
 
-    final public Resume get(String uuid) {
+    public final Resume get(String uuid) {
         int index = findIndex(uuid);
         if (index < 0) {
             System.out.printf("ERROR: resume %s not present in storage%n", uuid);
@@ -38,16 +44,19 @@ abstract public class AbstractArrayStorage implements Storage {
         return storage[index];
     }
 
-    final public void delete(String uuid) {
-        if (findIndex(uuid) < 0) {
+    public final void delete(String uuid) {
+        int index = findIndex(uuid);
+        if (index < 0) {
             System.out.printf("ERROR: resume %s not present in storage%n", uuid);
             return;
         }
 
-        deleteResume(uuid);
+        deleteResume(index);
+        storage[size - 1] = null;
+        size--;
     }
 
-    final public void update(Resume resume) {
+    public final void update(Resume resume) {
         if (resume == null) {
             System.out.println("ERROR: resume does not exist");
             return;
@@ -62,17 +71,17 @@ abstract public class AbstractArrayStorage implements Storage {
         storage[index] = resume;
     }
 
-    final public Resume[] getAll() {
+    public final Resume[] getAll() {
         return Arrays.copyOfRange(storage, 0, size);
     }
 
-    final public int size() {
+    public final int size() {
         return size;
     }
 
     protected abstract void saveResume(Resume r);
 
-    protected abstract void deleteResume(String uuid);
+    protected abstract void deleteResume(int index);
 
     protected abstract int findIndex(String uuid);
 }

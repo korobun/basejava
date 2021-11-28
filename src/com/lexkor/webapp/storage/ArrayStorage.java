@@ -8,18 +8,11 @@ import com.lexkor.webapp.model.Resume;
 public class ArrayStorage extends AbstractArrayStorage {
 
     protected void saveResume(Resume r) {
-        if (size < STORAGE_LIMIT) {
-            storage[size] = r;
-            size++;
-        } else {
-            System.out.println("ERROR: storage overflow");
-        }
+        storage[size] = r;
     }
 
-    protected void deleteResume(String uuid) {
-        storage[findIndex(uuid)] = storage[size - 1];
-        storage[size - 1] = null;
-        size--;
+    protected void deleteResume(int index) {
+        storage[index] = storage[size - 1];
     }
 
     protected int findIndex(String uuid) {

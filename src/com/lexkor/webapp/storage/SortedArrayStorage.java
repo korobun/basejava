@@ -10,13 +10,10 @@ public class SortedArrayStorage extends AbstractArrayStorage {
         int insertKey = -findIndex(r.toString()) - 1;
         System.arraycopy(storage, insertKey, storage, insertKey + 1, size - insertKey);
         storage[insertKey] = r;
-        size++;
     }
 
-    protected void deleteResume(String uuid) {
-        int index = findIndex(uuid);
-        System.arraycopy(storage, index + 1, storage, index, size - index);
-        size--;
+    protected void deleteResume(int index) {
+        System.arraycopy(storage, index + 1, storage, index, size - index - 1);
     }
 
     protected int findIndex(String uuid) {
