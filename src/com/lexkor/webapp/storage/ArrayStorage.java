@@ -7,7 +7,7 @@ import com.lexkor.webapp.model.Resume;
  */
 public class ArrayStorage extends AbstractArrayStorage {
 
-    protected void saveResume(Resume r) {
+    protected void saveResume(Resume r, int index) {
         storage[size] = r;
     }
 

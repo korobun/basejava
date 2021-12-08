@@ -1,5 +1,8 @@
 package com.lexkor.webapp.storage;
 
+import com.lexkor.webapp.exception.ExistStorageException;
+import com.lexkor.webapp.exception.NotExistStorageException;
+import com.lexkor.webapp.exception.StorageException;
 import com.lexkor.webapp.model.Resume;
 
 import java.util.Arrays;
@@ -17,29 +20,27 @@ public abstract class AbstractArrayStorage implements Storage {
 
     public final void save(Resume r) {
         if (r == null) {
-            System.out.println("ERROR: resume does not exist");
-            return;
+            throw new NullPointerException();
         }
 
-        if (findIndex(r.toString()) >= 0) {
-            System.out.printf("ERROR: resume %s present in storage%n", r);
-            return;
+        int index = findIndex(r.toString());
+        if (index >= 0) {
+            throw new ExistStorageException(r.getUuid());
         }
 
         if (size == STORAGE_LIMIT) {
-            System.out.println("ERROR: storage overflow");
-            return;
+            throw new StorageException("ERROR: storage overflow", r.getUuid());
         }
 
-        saveResume(r);
+        saveResume(r, index);
         size++;
     }
 
     public final Resume get(String uuid) {
         int index = findIndex(uuid);
         if (index < 0) {
-            System.out.printf("ERROR: resume %s not present in storage%n", uuid);
-            return null;
+            throw new NotExistStorageException(uuid);
+
         }
         return storage[index];
     }
@@ -47,8 +48,7 @@ public abstract class AbstractArrayStorage implements Storage {
     public final void delete(String uuid) {
         int index = findIndex(uuid);
         if (index < 0) {
-            System.out.printf("ERROR: resume %s not present in storage%n", uuid);
-            return;
+            throw new NotExistStorageException(uuid);
         }
 
         deleteResume(index);
@@ -58,14 +58,12 @@ public abstract class AbstractArrayStorage implements Storage {
 
     public final void update(Resume resume) {
         if (resume == null) {
-            System.out.println("ERROR: resume does not exist");
-            return;
+            throw new NullPointerException();
         }
 
         int index = findIndex(resume.toString());
         if (index < 0) {
-            System.out.printf("ERROR: resume %s not present in storage%n", resume);
-            return;
+            throw new NotExistStorageException(resume.getUuid());
         }
 
         storage[index] = resume;
@@ -79,7 +77,7 @@ public abstract class AbstractArrayStorage implements Storage {
         return size;
     }
 
-    protected abstract void saveResume(Resume r);
+    protected abstract void saveResume(Resume r, int index);
 
     protected abstract void deleteResume(int index);
 
