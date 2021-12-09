@@ -6,6 +6,7 @@ import com.lexkor.webapp.exception.StorageException;
 import com.lexkor.webapp.model.Resume;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public abstract class AbstractArrayStorage implements Storage {
     protected static final int STORAGE_LIMIT = 10_000;
@@ -19,20 +20,18 @@ public abstract class AbstractArrayStorage implements Storage {
     }
 
     public final void save(Resume r) {
-        if (r == null) {
-            throw new NullPointerException();
-        }
+        Resume resume = Objects.requireNonNull(r, "Resume must not be null");
 
-        int index = findIndex(r.toString());
+        int index = findIndex(resume.toString());
         if (index >= 0) {
-            throw new ExistStorageException(r.getUuid());
+            throw new ExistStorageException(resume.getUuid());
         }
 
         if (size == STORAGE_LIMIT) {
-            throw new StorageException("ERROR: storage overflow", r.getUuid());
+            throw new StorageException("ERROR: storage overflow", resume.getUuid());
         }
 
-        saveResume(r, index);
+        saveResume(resume, index);
         size++;
     }
 
@@ -57,16 +56,14 @@ public abstract class AbstractArrayStorage implements Storage {
     }
 
     public final void update(Resume resume) {
-        if (resume == null) {
-            throw new NullPointerException();
-        }
+        Resume r = Objects.requireNonNull(resume, "Resume must not be null");
 
-        int index = findIndex(resume.toString());
+        int index = findIndex(r.toString());
         if (index < 0) {
-            throw new NotExistStorageException(resume.getUuid());
+            throw new NotExistStorageException(r.getUuid());
         }
 
-        storage[index] = resume;
+        storage[index] = r;
     }
 
     public final Resume[] getAll() {
