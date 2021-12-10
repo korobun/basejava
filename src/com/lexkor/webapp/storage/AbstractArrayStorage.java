@@ -22,13 +22,14 @@ public abstract class AbstractArrayStorage implements Storage {
     public final void save(Resume r) {
         Resume resume = Objects.requireNonNull(r, "Resume must not be null");
 
-        int index = findIndex(resume.toString());
+        String uuid = resume.getUuid();
+        int index = findIndex(uuid);
         if (index >= 0) {
-            throw new ExistStorageException(resume.getUuid());
+            throw new ExistStorageException(uuid);
         }
 
         if (size == STORAGE_LIMIT) {
-            throw new StorageException("ERROR: storage overflow", resume.getUuid());
+            throw new StorageException("ERROR: storage overflow", uuid);
         }
 
         saveResume(resume, index);
@@ -58,7 +59,7 @@ public abstract class AbstractArrayStorage implements Storage {
     public final void update(Resume resume) {
         Resume r = Objects.requireNonNull(resume, "Resume must not be null");
 
-        int index = findIndex(r.toString());
+        int index = findIndex(r.getUuid());
         if (index < 0) {
             throw new NotExistStorageException(r.getUuid());
         }
